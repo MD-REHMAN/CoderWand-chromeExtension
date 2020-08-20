@@ -7,12 +7,12 @@ const Wizard = {
 	},
 	undo: function () {
 		let activeCommand = this.undo_stack.pop();
-		activeCommand.undo();
+		activeCommand?.undo();
 		this.redo_stack.push(activeCommand);
 	},
 	redo: function () {
 		let activeCommand = this.redo_stack.pop();
-		activeCommand.execute();
+		activeCommand?.execute();
 		this.undo_stack.push(activeCommand);
 	},
 };
@@ -28,8 +28,8 @@ HideElement.prototype.execute = function () {
 };
 HideElement.prototype.undo = function () {
 	document
-		.querySelectorAll(this.element.selector)
-		[this.element.position]?.classList.remove('coderWand-cloak');
+		.querySelectorAll(this.selector)
+		[this.position]?.classList.remove('coderWand-cloak');
 };
 
 const app = {
@@ -71,14 +71,19 @@ const app = {
 		);
 
 		chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-			if (request.action === 'hide') {
-				sendResponse({ value: 'done' });
-				Wizard.execute(new HideElement(this.clickedEl));
-				this.setChromeLocalData();
-			}
-			if (request.action === 'undo_hide') {
-				Wizard.undo();
-				this.setChromeLocalData();
+			switch (request.action) {
+				case 'hide':
+					sendResponse({ value: 'done' });
+					Wizard.execute(new HideElement(this.clickedEl));
+					this.setChromeLocalData();
+					break;
+				case 'undo_hide':
+					Wizard.undo();
+					this.setChromeLocalData();
+					break;
+				case 'redo_hide':
+					Wizard.redo();
+					break;
 			}
 		});
 		return this;

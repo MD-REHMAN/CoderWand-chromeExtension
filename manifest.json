@@ -10,10 +10,10 @@
 		"scripts": ["./src/background/background.js"],
 		"psersistent": false
 	},
-	"options_page": "./src/options/options.html",
+	// "options_page": "./src/options/options.html",
 	"browser_action": {
-		"default_icon": "./assets/coderWand.png",
-		"default_popup": "./src/popup/popup.html"
+		"default_icon": "./assets/coderWand.png"
+		// "default_popup": "./src/popup/popup.html"
 	},
 	"content_scripts": [
 		{
@@ -30,6 +30,13 @@
 				"default": "Ctrl+Z"
 			},
 			"description": "Undo Hide actions"
+		},
+		"redo_hide": {
+			"suggested_key": {
+				"default": "Ctrl+Y",
+				"mac": "Command+Shift+Z"
+			},
+			"description": "Redo Hide actions"
 		}
 	}
 }
