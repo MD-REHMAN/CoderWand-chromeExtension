@@ -1,25 +1,25 @@
 {
 	"manifest_version": 2,
 	"name": "CorderWand",
-	"description": "Your magic wand which hides unwanted stuff from the webpage.",
+	"description": "Your magic wand through which you can hides unwanted stuff from the webpage.",
 	"version": "0.1.0",
 	"icons": {
 		"48": "./assets/coderWand.png"
 	},
 	"background": {
-		"scripts": ["./eventPage.js"],
+		"scripts": ["./src/background/background.js"],
 		"psersistent": false
 	},
-	"options_page": "options.html",
+	"options_page": "./src/options/options.html",
 	"browser_action": {
 		"default_icon": "./assets/coderWand.png",
-		"default_popup": "popup.html"
+		"default_popup": "./src/popup/popup.html"
 	},
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
-			"js": ["index.js"],
-			"css": ["./src/app.css"]
+			"js": ["./src/content/app.js"],
+			"css": ["./src/content/app.css"]
 		}
 	],
 	"permissions": ["storage", "tabs", "contextMenus"],

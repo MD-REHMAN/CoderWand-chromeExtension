@@ -11,7 +11,7 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 });
 
 function mycallback(info, tab) {
-	chrome.tabs.sendMessage(tab.id, { isActive: true });
+	chrome.tabs.sendMessage(tab.id, { action: 'hide' });
 }
 
 chrome.commands.onCommand.addListener(function (command) {
