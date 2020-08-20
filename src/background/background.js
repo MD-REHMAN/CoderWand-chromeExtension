@@ -1,28 +1,38 @@
-const contextMenuItem = {
-	id: 'coderWand',
-	title: 'Evanesco - Vinishine spell',
+const evanesco = {
+	id: 'Evanesco',
+	title: 'Evanesco - Vanishing Spell',
 	contexts: ['all'],
 };
-chrome.contextMenus.create(contextMenuItem);
+chrome.contextMenus.create(evanesco);
+// const obliviate = {
+// 	id: 'Obliviate',
+// 	title: 'Obliviate - Forgetfulness Charm',
+// 	contexts: ['all'],
+// };
+// chrome.contextMenus.create(obliviate);
+
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
-	if (info.menuItemId === 'coderWand') {
-		mycallback(info, tab);
+	switch (info.menuItemId) {
+		case 'Evanesco':
+			chrome.tabs.sendMessage(tab.id, { action: 'hide' });
+			break;
+		case 'Obliviate':
+			chrome.tabs.sendMessage(tab.id, { action: 'clear' });
+			break;
 	}
 });
 
-function mycallback(info, tab) {
-	chrome.tabs.sendMessage(tab.id, { action: 'hide' });
-}
-
 chrome.commands.onCommand.addListener(function (command) {
-	if (command === 'undo_hide') {
-		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, { action: command });
-		});
-	}
-	if (command === 'redo_hide') {
-		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, { action: command });
-		});
+	switch (command) {
+		case 'undo_hide':
+			chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+				chrome.tabs.sendMessage(tabs[0].id, { action: command });
+			});
+			break;
+		case 'redo_hide':
+			chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+				chrome.tabs.sendMessage(tabs[0].id, { action: command });
+			});
+			break;
 	}
 });

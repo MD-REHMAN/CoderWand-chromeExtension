@@ -73,18 +73,18 @@ const app = {
 		chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			switch (request.action) {
 				case 'hide':
-					sendResponse({ value: 'done' });
 					Wizard.execute(new HideElement(this.clickedEl));
-					this.setChromeLocalData();
 					break;
 				case 'undo_hide':
 					Wizard.undo();
-					this.setChromeLocalData();
 					break;
 				case 'redo_hide':
 					Wizard.redo();
 					break;
+				case 'clear':
+					break;
 			}
+			this.setChromeLocalData();
 		});
 		return this;
 	},
